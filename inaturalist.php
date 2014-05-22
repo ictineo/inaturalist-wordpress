@@ -23,8 +23,26 @@ function inat_options() {
 	if ( !current_user_can( 'manage_options' ) )  {
 		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 	}
-	if(isset($_POST['this'])){
-		update_option( 'inat_id',$_POST['this'] );		
+	if(isset($_POST['inat_base_url'])){
+		update_option( 'inat_base_url',$_POST['inat_base_url'] );		
+	}
+	if(isset($_POST['inat_reduce_project'])){
+		update_option( 'inat_reduce_project',$_POST['inat_reduce_project'] );		
+	}
+	if(isset($_POST['inat_reduce_user'])){
+		update_option( 'inat_reduce_user',$_POST['inat_reduce_user'] );		
+	}
+	if(isset($_POST['inat_login_callback'])){
+		update_option( 'inat_login_callback',$_POST['inat_login_callback'] );		
+	}
+	if(isset($_POST['inat_login_id'])){
+		update_option( 'inat_login_id',$_POST['inat_login_id'] );		
+	}
+	if(isset($_POST['inat_login_secret'])){
+		update_option( 'inat_login_secret',$_POST['inat_login_secret'] );		
+	}
+	if(isset($_POST['inat_login_app'])){
+		update_option( 'inat_login_app',$_POST['inat_login_app'] );		
 	}
 
 	echo '<div class="wrap">';
@@ -65,7 +83,8 @@ function inat_options() {
 
 
 function my_the_content_filter($content) {
-  if (isset($GLOBALS['_REQUEST']['inat'])) {
+  if (isset($GLOBALS['posts'][0]->post_title) == 'inat') {
+    return var_dump($GLOBALS['_REQUEST']);
     //$ret_cont .= 'inat in!';
     $cont = test_call();
     return theme_list_obs($cont);
