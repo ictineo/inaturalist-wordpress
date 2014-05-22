@@ -12,16 +12,10 @@
 require_once('inat-widgets.php');
 require_once('inat-callapi.php');
 //Afegir pàgina d'opcions i salvar-les
-add_action( 'admin_menu', 'my_plugin_menu' );
-  add_action( 'admin_menu', 'add_inat_menu' );
-  add_action( 'admin_init', 'register_inat_settings' );
-function register_inat_settings() { // whitelist options
-}
-
-
+add_action( 'admin_menu', 'add_inat_menu' );
 
 function add_inat_menu() {
-	$inat_options = add_options_page( 'My Plugin Options', 'INature', 'manage_options', 'inature', 'inat_options' );
+	$inat_options = add_options_page( 'iNaturalist configuration page', 'iNaturalist', 'manage_options', 'inaturalist', 'inat_options' );
 }
 
 
@@ -29,17 +23,19 @@ function inat_options() {
 	if ( !current_user_can( 'manage_options' ) )  {
 		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 	}
-
-  register_setting( 'inat-options', 'new_option_name' );
-  register_setting( 'inat-options', 'some_other_option' );
-  register_setting( 'inat-options', 'option_etc' );
 	if(isset($_POST['this'])){
 		update_option( 'inat_id',$_POST['this'] );		
 	}
 
 	echo '<div class="wrap">';
+  echo '<h2>Big tit</h2>';
 	echo '<form action="" method="post">';
-	echo '<input type="text" value="'.get_option( 'inat_id' ).'" name="this">';
+  echo '<table class="form-table"><tbody>';
+  echo '<tr><th scope="row"><label for="this"> adsf </label></th>';
+	echo '<td><input type="text" class="regular-text" value="'.get_option( 'inat_id' ).'" name="this">';
+  echo '<p class="description"> desc</p></td></tr>';
+	//echo '<input type="text" value="'.get_option( 'inat_' ).'" name="">';
+  echo '</tbody></table>';
 	echo '<input type="submit" name="dp_submit" value="Save Settings" />';
 	echo '</form>';
 	echo '</div>';
