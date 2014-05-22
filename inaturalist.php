@@ -28,12 +28,31 @@ function inat_options() {
 	}
 
 	echo '<div class="wrap">';
-  echo '<h2>Big tit</h2>';
+  echo '<h2>'.__('iNaturalist configuration page', 'inat').'</h2>';
 	echo '<form action="" method="post">';
   echo '<table class="form-table"><tbody>';
-  echo '<tr><th scope="row"><label for="this"> adsf </label></th>';
-	echo '<td><input type="text" class="regular-text" value="'.get_option( 'inat_id' ).'" name="this">';
-  echo '<p class="description"> desc</p></td></tr>';
+  echo '<tr><th scope="row"><label for="this">'.__('Base URL of iNaturalist','inat').' </label></th>';
+	echo '<td><input type="text" class="regular-text" value="'.get_option( 'inat_base_url' ).'" name="inat_base_url">';
+  echo '<p class="description">'.__('The URL used to access iNaturalist data, for example http://www.inaturalist.org','inat').'</p></td></tr>';
+  echo '<tr><th scope="row"><label for="this">'.__('Reduce plugin behavior to this project ','inat').' </label></th>';
+	echo '<td><input type="text" class="regular-text" value="'.get_option( 'inat_reduce_project' ).'" name="inat_reduce_project">';
+  echo '<p class="description">'.__('The project id to reduce the plugin behavior','inat').'</p></td></tr>';
+  echo '<tr><th scope="row"><label for="this">'.__('Reduce plugin behavior to this user ','inat').' </label></th>';
+	echo '<td><input type="text" class="regular-text" value="'.get_option( 'inat_reduce_user' ).'" name="inat_reduce_user">';
+  echo '<p class="description">'.__('The user loginname to reduce the plugin behavior','inat').'</p></td></tr>';
+  echo '<tr><th colspan=2><h3>'.__('Configurations for login as iNaturalist application', 'inat').'</h3></th></tr>';
+  echo '<tr><th scope="row"><label for="this">'.__('Callback url','inat').' </label></th>';
+	echo '<td><input type="text" class="regular-text" value="'.get_option( 'inat_login_callback' ).'" name="inat_login_callback">';
+  echo '<p class="description">'.__('iNat application callback url','inat').'</p></td></tr>';
+  echo '<tr><th scope="row"><label for="this">'.__('Application Id','inat').' </label></th>';
+	echo '<td><input type="text" class="regular-text" value="'.get_option( 'inat_login_id' ).'" name="inat_login_id">';
+  echo '<p class="description">'.__('iNat application identifyer','inat').'</p></td></tr>';
+  echo '<tr><th scope="row"><label for="this">'.__('Secret','inat').' </label></th>';
+	echo '<td><input type="text" class="regular-text" value="'.get_option( 'inat_login_secret' ).'" name="inat_login_secret">';
+  echo '<p class="description">'.__('iNat application secret key','inat').'</p></td></tr>';
+  echo '<tr><th scope="row"><label for="this">'.__('Numeric id of your application','inat').' </label></th>';
+	echo '<td><input type="text" class="regular-text" value="'.get_option( 'inat_login_app' ).'" name="inat_login_app">';
+  echo '<p class="description">'.__('Get it at list of applications http://www.inaturalist.org/oauth/applications','inat').'</p></td></tr>';
 	//echo '<input type="text" value="'.get_option( 'inat_' ).'" name="">';
   echo '</tbody></table>';
 	echo '<input type="submit" name="dp_submit" value="Save Settings" />';
