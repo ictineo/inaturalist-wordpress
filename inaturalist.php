@@ -13,10 +13,14 @@ require_once('inat-widgets.php');
 require_once('inat-callapi.php');
 //Afegir pàgina d'opcions i salvar-les
 add_action( 'admin_menu', 'my_plugin_menu' );
+  add_action( 'admin_menu', 'add_inat_menu' );
+  add_action( 'admin_init', 'register_inat_settings' );
+function register_inat_settings() { // whitelist options
+}
 
 
 
-function my_plugin_menu() {
+function add_inat_menu() {
 	$inat_options = add_options_page( 'My Plugin Options', 'INature', 'manage_options', 'inature', 'inat_options' );
 }
 
@@ -26,6 +30,9 @@ function inat_options() {
 		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 	}
 
+  register_setting( 'inat-options', 'new_option_name' );
+  register_setting( 'inat-options', 'some_other_option' );
+  register_setting( 'inat-options', 'option_etc' );
 	if(isset($_POST['this'])){
 		update_option( 'inat_id',$_POST['this'] );		
 	}

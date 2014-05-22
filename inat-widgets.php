@@ -8,6 +8,7 @@ class Foo_Widget extends WP_Widget {
 	 * Register widget with WordPress.
 	 */
 	function __construct() {
+    // info en el llistat de widgets
 		parent::__construct(
 			'foo_widget', // Base ID
 			__('Widget Title', 'text_domain'), // Name
@@ -26,11 +27,12 @@ class Foo_Widget extends WP_Widget {
 	public function widget( $args, $instance ) {
 		$title = apply_filters( 'widget_title', $instance['title'] );
 
-		echo $args['before_widget'];
+		echo $args['before_widget']; // no tocar
 		if ( ! empty( $title ) )
 			echo $args['before_title'] . $title . $args['after_title'];
 		echo __( 'Hello, World!', 'text_domain' );
-		echo $args['after_widget'];
+    // afegir tralla
+		echo $args['after_widget']; // no tocar
 	}
 
 	/**
@@ -39,6 +41,7 @@ class Foo_Widget extends WP_Widget {
 	 * @see WP_Widget::form()
 	 *
 	 * @param array $instance Previously saved values from database.
+   * opcions de configuracio
 	 */
 	public function form( $instance ) {
 		if ( isset( $instance[ 'title' ] ) ) {
