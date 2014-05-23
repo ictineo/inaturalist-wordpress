@@ -2,7 +2,7 @@
 /**
  * Adds Foo_Widget widget.
  */
-class Foo_Widget extends WP_Widget {
+class iNatLogin_Widget extends WP_Widget {
 
 	/**
 	 * Register widget with WordPress.
@@ -10,9 +10,9 @@ class Foo_Widget extends WP_Widget {
 	function __construct() {
     // info en el llistat de widgets
 		parent::__construct(
-			'foo_widget', // Base ID
-			__('Widget Title', 'text_domain'), // Name
-			array( 'description' => __( 'A Foo Widget', 'text_domain' ), ) // Args
+			'inat_login_widget', // Base ID
+			__('iNaturalist Login', 'inat'), // Name
+			array( 'description' => __( 'iNaturalist plugin lateral block for user autentication (or creation)', 'text_domain' ), ) // Args
 		);
 	}
 
@@ -30,8 +30,45 @@ class Foo_Widget extends WP_Widget {
 		echo $args['before_widget']; // no tocar
 		if ( ! empty( $title ) )
 			echo $args['before_title'] . $title . $args['after_title'];
-		echo __( 'Hello, World!', 'text_domain' );
-    // afegir tralla
+		//echo __( 'Hello, World!', 'text_domain' );
+    if(isset($_GET['code'])) {
+      $_SESSION['inat_code'] = $_GET['code'];
+    }
+    if(isset($_SESSION) &&
+      array_key_exists('inat_code', $_SESSION) &&
+      (!array_key_exists('inat_access_token', $_SESSION) || $_SESSION['inat_access_token'] == NULL))
+      {
+      /** Get the access_token **/
+      $code = $_SESSION['inat_code'];
+      $client_id = get_option('inat_login_id','');
+      $client_secret = get_option('inat_login_secret', '');
+      $redirect_uri = get_option('inat_login_callback', '');
+
+      $data = 'client_id='.$client_id.'&client_secret='.$client_secret.'&code='.$code.'&redirect_uri='.$redirect_uri.'&grant_type=authorization_code';
+      $url = get_option('inat_base_url').'/oauth/token';
+      $url = url('https://www.inaturalist.org/oauth/token', array('https' => 'TRUE'));
+      $opt = array('method' => 'POST', 'data' => $data, 'headers' => array('Content-Type' => 'application/x-www-form-urlencoded'));
+      $options = array(
+        'https' => array(
+            'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+            'method'  => 'POST',
+            'content' => $data,
+        ),
+      );
+      $context  = stream_context_create($options);
+      $result = file_get_contents($url, false, $context);
+      $req = json_decode($result);
+
+
+      if(!array_key_exists('access_token', $req)) {
+        echo '<a href="'.get_option('inat_base_url').'/oauth/authorize?client_id='.get_option('inat_login_id','').'&redirect_uri='.get_option('inat_login_callback','').'&response_type=code">'. __('Autorize this app','inat'). '</a>';
+      } else {
+        $_SESSION['inat_access_token'] = $req['access_token'];
+      }
+
+    } elseif(!isset($_SESSION) || !array_key_exists('inat_access_token', $_SESSION) || $_SESSION['inat_access_token'] == NULL) {
+      echo '<a href="'.get_option('inat_base_url').'/oauth/authorize?client_id='.get_option('inat_login_id','').'&redirect_uri='.get_option('inat_login_callback','').'&response_type=code">'. __('Autorize this app','inat'). '</a> or <a href="'.site_url().'/inat/add/user">'.__('create new user','inat').'</a>';
+    }
 		echo $args['after_widget']; // no tocar
 	}
 
@@ -48,7 +85,7 @@ class Foo_Widget extends WP_Widget {
 			$title = $instance[ 'title' ];
 		}
 		else {
-			$title = __( 'New title', 'text_domain' );
+			$title = __( 'iNaturalist Login', 'inat' );
 		}
 		?>
 		<p>
@@ -78,7 +115,7 @@ class Foo_Widget extends WP_Widget {
 } // class Foo_Widget
 // register Foo_Widget widget
 function register_foo_widget() {
-    register_widget( 'Foo_Widget' );
+    register_widget( 'iNatLogin_Widget' );
 }
 add_action( 'widgets_init', 'register_foo_widget' );
 ?>
