@@ -81,7 +81,9 @@ function inat_options() {
 
 //Filtrar the_content de la pàgina
 function my_the_content_filter($content) {
-  if (isset($GLOBALS['posts'][0]->post_title) == 'inat') {
+  
+  if ($GLOBALS['post']->post_title == 'inat') {
+		update_option( 'inat_post_id', (string)$GLOBALS['post']->ID );		
     $output = '';
     $verb = (isset($GLOBALS['_REQUEST']['verb'])) ? $GLOBALS['_REQUEST']['verb'] : 'observations';
     $id = (isset($GLOBALS['_REQUEST']['id'])) ? $GLOBALS['_REQUEST']['id'] : '';
@@ -95,6 +97,7 @@ function my_the_content_filter($content) {
     //return var_dump($GLOBALS['_REQUEST']);
     //$ret_cont .= 'inat in!';
     $data = inat_get_call($verb, $id, $page, $per_page, $order_by, $custom);
+    $params =array('verb' => $verb, 'id' => $id, 'page' => $page, 'per_page' => $per_page, 'order_by' => $order_by, 'custom' => $custom);
     switch($verb) {
       /******
 http://www.inaturalist.org/observations.json?per_page=150&order_by=observed_on&page=1
@@ -115,7 +118,7 @@ http://www.inaturalist.org/observations.json?per_page=40&order_by=observed_on&ta
       case 'observations':
         if($id == '') {
           $output .= theme_map_obs($data);
-          $output .= theme_list_obs($data);
+          $output .= theme_list_obs($data, $params);
         } else {
           $output .= theme_observation($data);
         }
@@ -127,10 +130,9 @@ http://www.inaturalist.org/observations.json?per_page=40&order_by=observed_on&ta
           $output .= theme_place($data);
           $custom['place_guess'] = $id;
           $data2 = inat_get_call($verb, $id, $page, $per_page, $order_by, $custom);
-          $output .= theme_list_obs($data2);
+          $output .= theme_list_obs($data2, $params);
         }
         break;
-
       case 'projects':
         if($id == '') {
           $output .= theme_list_projects($data);
@@ -138,10 +140,9 @@ http://www.inaturalist.org/observations.json?per_page=40&order_by=observed_on&ta
           $output .= theme_project($data);
           $verb2 = 'observations/project';
           $data2 = inat_get_call($verb2, $id, $page, $per_page, $order_by, $custom);
-          $output .= theme_list_obs($data2);
+          $output .= theme_list_obs($data2, $params);
         }
         break;
-
       case 'taxa':
         if($id == '') {
           $output .= theme_list_taxa($data);
@@ -150,11 +151,11 @@ http://www.inaturalist.org/observations.json?per_page=40&order_by=observed_on&ta
           $verb2 = 'observations';
           $custom['taxon_id'] = $id;
           $data2 = inat_get_call($verb2, $id, $page, $per_page, $order_by, $custom);
-          $output .= theme_list_obs($data2);
+          $output .= theme_list_obs($data2, $params);
         }
         break;
      default:
-          $output .= theme_list_obs($data);
+          $output .= theme_list_obs($data, $params);
     }
     return $output;
   }

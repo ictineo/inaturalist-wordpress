@@ -54,18 +54,17 @@ http://www.inaturalist.org/observations.json?per_page=40&order_by=observed_on&ta
   $result = file_get_contents($url, false, $context);
   $data = json_decode($result);
   return $data;
-
 }
 
-function theme_list_obs($obs) {
+function theme_list_obs($obs, $params) {
   $output = '';
   foreach($obs as $id => $ob) {
-    $output .= theme_list_single_obs($id,$ob);
+    $output .= theme_list_single_obs($id,$ob, $params);
   }
   return $output;
 }
 
-function theme_list_single_obs($id,$ob) {
+function theme_list_single_obs($id,$ob, $params) {
   $output = ' 
     <div class="inat_observation row" id="obs_'.$ob->id.'">
       <div class="photo">';
@@ -85,7 +84,7 @@ function theme_list_single_obs($id,$ob) {
         $output .= '</div>';
       }
       $output .= '</div> <!-- /photo -->
-      <h2><a href="'.'/inat/observation/' . $ob->id.'">'.$ob->species_guess.'</a></h2>
+      <h2><a href="'.site_url().'/?'.http_build_query(array('page_id' => get_option('inat_post_id'), 'verb'=>'observations', 'id' => $ob->id, )).'">'.$ob->species_guess.'</a></h2>
       <div class="description">'.$ob->description.'</div>';
       if(isset($ob->user->login)){
         $output .= '<div class="observer"><span class="label">'.__('Observer: ', 'inat') .'</span>'. $ob->user->login.'</div>';
@@ -113,19 +112,19 @@ function theme_observation($data) {
   return var_dump($data);
 }
 
-function theme_list_places($data) {
+function theme_list_places($data, $params) {
   return var_dump($data);
 }
 function theme_place($data) {
   return var_dump($data);
 }
-function theme_list_projects($data) {
+function theme_list_projects($data, $params) {
   return var_dump($data);
 }
 function theme_project($data) {
   return var_dump($data);
 }
-function theme_list_taxa($data) {
+function theme_list_taxa($data, $params) {
   return var_dump($data);
 }
 function theme_taxon($data) {
