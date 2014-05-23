@@ -31,44 +31,20 @@ class iNatLogin_Widget extends WP_Widget {
 		if ( ! empty( $title ) )
 			echo $args['before_title'] . $title . $args['after_title'];
 		//echo __( 'Hello, World!', 'text_domain' );
-    if(isset($_GET['code'])) {
-      $_SESSION['inat_code'] = $_GET['code'];
-    }
-    if(isset($_SESSION) &&
-      array_key_exists('inat_code', $_SESSION) &&
-      (!array_key_exists('inat_access_token', $_SESSION) || $_SESSION['inat_access_token'] == NULL))
-      {
-      /** Get the access_token **/
-      $code = $_SESSION['inat_code'];
-      $client_id = get_option('inat_login_id','');
-      $client_secret = get_option('inat_login_secret', '');
-      $redirect_uri = get_option('inat_login_callback', '');
-
-      $data = 'client_id='.$client_id.'&client_secret='.$client_secret.'&code='.$code.'&redirect_uri='.$redirect_uri.'&grant_type=authorization_code';
-      $url = get_option('inat_base_url').'/oauth/token';
-      $url = url('https://www.inaturalist.org/oauth/token', array('https' => 'TRUE'));
-      $opt = array('method' => 'POST', 'data' => $data, 'headers' => array('Content-Type' => 'application/x-www-form-urlencoded'));
-      $options = array(
-        'https' => array(
-            'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-            'method'  => 'POST',
-            'content' => $data,
-        ),
-      );
-      $context  = stream_context_create($options);
-      $result = file_get_contents($url, false, $context);
-      $req = json_decode($result);
-
-
-      if(!array_key_exists('access_token', $req)) {
+  if(isset($_COOKIE) &&
+    array_key_exists('inat_code', $_COOKIE) &&
+    (!array_key_exists('inat_access_token', $_COOKIE) || $_COOKIE['inat_access_token'] == NULL))
+  {
+      if(!array_key_exists('access_token', $_COOKIE)) {
         echo '<a href="'.get_option('inat_base_url').'/oauth/authorize?client_id='.get_option('inat_login_id','').'&redirect_uri='.get_option('inat_login_callback','').'&response_type=code">'. __('Autorize this app','inat'). '</a>';
       } else {
-        $_SESSION['inat_access_token'] = $req['access_token'];
+        //$_COOKIE['inat_access_token'] = $req['access_token'];
       }
 
-    } elseif(!isset($_SESSION) || !array_key_exists('inat_access_token', $_SESSION) || $_SESSION['inat_access_token'] == NULL) {
+    } elseif(!isset($_COOKIE) || !array_key_exists('inat_access_token', $_COOKIE) || $_COOKIE['inat_access_token'] == NULL) {
       echo '<a href="'.get_option('inat_base_url').'/oauth/authorize?client_id='.get_option('inat_login_id','').'&redirect_uri='.get_option('inat_login_callback','').'&response_type=code">'. __('Autorize this app','inat'). '</a> or <a href="'.site_url().'/inat/add/user">'.__('create new user','inat').'</a>';
     }
+    echo var_dump($_COOKIE);
 		echo $args['after_widget']; // no tocar
 	}
 

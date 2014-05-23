@@ -81,7 +81,6 @@ function inat_options() {
 
 //Filtrar the_content de la pàgina
 function my_the_content_filter($content) {
-  
   if ($GLOBALS['post']->post_title == 'inat') {
 		update_option( 'inat_post_id', (string)$GLOBALS['post']->ID );		
     $output = '';
@@ -193,7 +192,43 @@ function inat_user( $user ) {
          update_user_meta($user_id, 'inat_user', $_POST['inat_user']);
  }
 
+ /** cookie manajer for inat auth **/
+function inat_cookies() {
+  if(isset($_GET['code'])) {
+    //$_SESSION['inat_code'] = $_GET['code'];
+    setcookie('inat_code', $_GET['code'], time()+3600*24*30*12*10);
+  }
+  if(isset($_COOKIE) &&
+    array_key_exists('inat_code', $_COOKIE) &&
+    (!array_key_exists('inat_access_token', $_COOKIE) || $_COOKIE['inat_access_token'] == NULL))
+    {
+    /** Get the access_token **/
+    $code = $_COOKIE['inat_code'];
+    $client_id = get_option('inat_login_id','');
+    $client_secret = get_option('inat_login_secret', '');
+    $redirect_uri = get_option('inat_login_callback', '');
 
+    $data = 'client_id='.$client_id.'&client_secret='.$client_secret.'&code='.$code.'&redirect_uri='.$redirect_uri.'&grant_type=authorization_code';
+    $url = get_option('inat_base_url').'/oauth/token';
+    $opt = array('method' => 'POST', 'content' => $data, 'header' => array('Content-Type' => 'application/x-www-form-urlencoded'));
+    $options = array(
+      'http' => $opt,
+          //'headers'  => array('Content-type' => 'application/x-www-form-urlencoded'),
+          //'method'  => 'POST',
+          //'content' => $data,
+          //'data' => $data,
+      //),
+    );
+    echo var_dump($options);
+    echo var_dump($code);
+    $context  = stream_context_create($options);
+    $result = file_get_contents($url, false, $context);
+    $req = json_decode($result);
+        setcookie('inat_access_token', $req->access_token);
+    }
+
+}
+add_action( 'init', 'inat_cookies');
 
 
 ?>
