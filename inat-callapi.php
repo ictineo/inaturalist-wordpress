@@ -1,6 +1,26 @@
 <?php 
-function test_call($verb = 'observations', $param = '', $page = '') {
+function inat_get_call($verb='observations', $id='', $page='', $per_page='', $order_by='', $custom=array()) {
   /** Get the project information **/
+/**
+ *
+ *
+ * place_guess taxon_id
+http://www.inaturalist.org/observations.json?per_page=150&order_by=observed_on&page=1
+http://www.inaturalist.org/observations.json?per_page=40&order_by=observed_on&page=1
+http://www.inaturalist.org/observations.json?per_page=150&order_by=observed_on&page=1
+http://www.inaturalist.org/places.json?page=1
+http://www.inaturalist.org/projects.json
+http://www.inaturalist.org/taxa.json
+
+http://www.inaturalist.org/observations/694370.json
+http://www.inaturalist.org/places/61841.json
+http://www.inaturalist.org/observations.json?per_page=40&order_by=observed_on&place_guess=61841
+http://www.inaturalist.org/projects/101.json
+http://www.inaturalist.org/observations/project/101.json?per_page=40&order_by=observed_on
+http://www.inaturalist.org/taxa/47686.json
+http://www.inaturalist.org/observations.json?per_page=40&order_by=observed_on&taxon_id=47686&page=1
+
+ */
   //$verb = 'https://inaturalist.org/';
   //$query = array();
   //$options = array('query' => $query, 'https' => FALSE);
@@ -13,26 +33,32 @@ function test_call($verb = 'observations', $param = '', $page = '') {
   
   //$resp = http_request('HTTP_METH_GET', 'http://www.inaturalist.org/observations.json');
   //$r = new HttpRequest('http://www.inaturalist.org/observations.json', HttpRequest::METH_GET);
-  $url = 'http://www.inaturalist.org/observations.json';
-  $data = array('key1' => 'value1', 'key2' => 'value2');
+  //$url = 'http://www.inaturalist.org/observations.json';
+  if($id != '') {$id = '/'.$id;}
+  $url = get_option('inat_base_url').'/'.$verb.$id.'.json';
+  $data = array();
+  if($page != '') { $data += array('page' => $page); }
+  if($per_page != '') {$data += array('per_page' => $per_page); }
+  if($order_by != '') {$data += array('order_by' => $order_by); }
+  if(isset($custom)) {$data += $custom; }
 
   // use key 'http' even if you send the request to https://...
   $options = array(
       'http' => array(
           'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
           'method'  => 'GET',
-          'content' => http_build_query(array()),
+          'content' => http_build_query($data),
       ),
   );
   $context  = stream_context_create($options);
   $result = file_get_contents($url, false, $context);
-
-  return json_decode($result);
+  $data = json_decode($result);
+  return $data;
 
 }
 
 function theme_list_obs($obs) {
-  $output = 'hi joe!';
+  $output = '';
   foreach($obs as $id => $ob) {
     $output .= theme_list_single_obs($id,$ob);
   }
@@ -80,5 +106,29 @@ function theme_list_single_obs($id,$ob) {
 
   return $output;
 }
+function theme_map_obs($data) {
+  return var_dump($data);
+}
+function theme_observation($data) {
+  return var_dump($data);
+}
 
+function theme_list_places($data) {
+  return var_dump($data);
+}
+function theme_place($data) {
+  return var_dump($data);
+}
+function theme_list_projects($data) {
+  return var_dump($data);
+}
+function theme_project($data) {
+  return var_dump($data);
+}
+function theme_list_taxa($data) {
+  return var_dump($data);
+}
+function theme_taxon($data) {
+  return var_dump($data);
+}
 ?>

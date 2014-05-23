@@ -80,14 +80,83 @@ function inat_options() {
 
 
 //Filtrar the_content de la pàgina
-
-
 function my_the_content_filter($content) {
   if (isset($GLOBALS['posts'][0]->post_title) == 'inat') {
-    return var_dump($GLOBALS['_REQUEST']);
+    $output = '';
+    $verb = (isset($GLOBALS['_REQUEST']['verb'])) ? $GLOBALS['_REQUEST']['verb'] : 'observations';
+    $id = (isset($GLOBALS['_REQUEST']['id'])) ? $GLOBALS['_REQUEST']['id'] : '';
+    $page = (isset($GLOBALS['_REQUEST']['page'])) ? $GLOBALS['_REQUEST']['page'] : '1';
+    $per_page = (isset($GLOBALS['_REQUEST']['per_page'])) ? $GLOBALS['_REQUEST']['per_page'] : '50';
+    $order_by = (isset($GLOBALS['_REQUEST']['order_by'])) ? $GLOBALS['_REQUEST']['order_by'] : 'observed_on';
+    $custom = array();
+    if(isset($GLOBLAS['_REQUEST']['place_guess'])) { $custom += array('place_guess' => $GLOBALS['_REQUEST']['place_guess']); }
+    if(isset($GLOBLAS['_REQUEST']['taxon_id'])) { $custom += array('taxon_id' => $GLOBALS['_REQUEST']['taxon_id']); }
+    //if(isset($GLOBLAS['_REQUEST'][''])) { $custom += array('' => $GLOBALS['_REQUEST']['']); }
+    //return var_dump($GLOBALS['_REQUEST']);
     //$ret_cont .= 'inat in!';
-    $cont = test_call();
-    return theme_list_obs($cont);
+    $data = inat_get_call($verb, $id, $page, $per_page, $order_by, $custom);
+    switch($verb) {
+      /******
+http://www.inaturalist.org/observations.json?per_page=150&order_by=observed_on&page=1
+http://www.inaturalist.org/observations.json?per_page=40&order_by=observed_on&page=1
+http://www.inaturalist.org/observations.json?per_page=150&order_by=observed_on&page=1
+http://www.inaturalist.org/places.json?page=1
+http://www.inaturalist.org/projects.json
+http://www.inaturalist.org/taxa.json
+
+http://www.inaturalist.org/observations/694370.json
+http://www.inaturalist.org/places/61841.json
+http://www.inaturalist.org/observations.json?per_page=40&order_by=observed_on&place_guess=61841
+http://www.inaturalist.org/projects/101.json
+http://www.inaturalist.org/observations/project/101.json?per_page=40&order_by=observed_on
+http://www.inaturalist.org/taxa/47686.json
+http://www.inaturalist.org/observations.json?per_page=40&order_by=observed_on&taxon_id=47686&page=1
+      ********/
+      case 'observations':
+        if($id == '') {
+          $output .= theme_map_obs($data);
+          $output .= theme_list_obs($data);
+        } else {
+          $output .= theme_observation($data);
+        }
+        break;
+      case 'places':
+        if($id == '') {
+          $output .= theme_list_places($data);
+        } else {
+          $output .= theme_place($data);
+          $custom['place_guess'] = $id;
+          $data2 = inat_get_call($verb, $id, $page, $per_page, $order_by, $custom);
+          $output .= theme_list_obs($data2);
+        }
+        break;
+
+      case 'projects':
+        if($id == '') {
+          $output .= theme_list_projects($data);
+        } else {
+          $output .= theme_project($data);
+          $verb2 = 'observations/project';
+          $data2 = inat_get_call($verb2, $id, $page, $per_page, $order_by, $custom);
+          $output .= theme_list_obs($data2);
+        }
+        break;
+
+      case 'taxa':
+        if($id == '') {
+          $output .= theme_list_taxa($data);
+        } else {
+          $output .= theme_taxon($data);
+          $verb2 = 'observations';
+          $custom['taxon_id'] = $id;
+          $data2 = inat_get_call($verb2, $id, $page, $per_page, $order_by, $custom);
+          $output .= theme_list_obs($data2);
+        }
+        break;
+     default:
+          $output .= theme_list_obs($data);
+    }
+    return $output;
   }
   return $content;
 }
