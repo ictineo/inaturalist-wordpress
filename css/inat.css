@@ -1,0 +1,267 @@
+/* line 1, ../sass/observation.scss */
+figure.photo {
+  float: left;
+  display: table;
+}
+/* line 4, ../sass/observation.scss */
+figure.photo img {
+  height: 250px;
+}
+/* line 7, ../sass/observation.scss */
+figure.photo figurecaption {
+  display: table-caption;
+  caption-side: bottom;
+  font-size: 70%;
+}
+
+/* line 16, ../sass/observation.scss */
+.inat_observation #map {
+  width: 250px;
+  height: 250px;
+}
+/* line 20, ../sass/observation.scss */
+.inat_observation h2 {
+  /*clear: both;*/
+  clear: none;
+}
+
+/* line 25, ../sass/observation.scss */
+.inat_observation_single {
+  background-color: rgba(246, 246, 246, 0.8);
+  margin-top: 0px;
+  border: 1px solid #dddddd;
+  margin-bottom: 15px;
+  padding-left: 5px;
+  display: block;
+}
+/* line 32, ../sass/observation.scss */
+.inat_observation_single h2 {
+  clear: both;
+}
+/* line 35, ../sass/observation.scss */
+.inat_observation_single .photo_single {
+  display: inline-block;
+  margin: 15px;
+  vertical-align: top;
+  width: 300px;
+}
+/* line 40, ../sass/observation.scss */
+.inat_observation_single .photo_single figurecaption {
+  display: block;
+}
+/* line 44, ../sass/observation.scss */
+.inat_observation_single .localitzation {
+  border-right: 1px solid #dddddd;
+  display: inline-block;
+  width: 327px;
+  padding: 10px;
+  border-left: 1px solid;
+}
+/* line 51, ../sass/observation.scss */
+.inat_observation_single .localitzation #map {
+  width: 250px;
+  height: 281px;
+}
+/* line 56, ../sass/observation.scss */
+.inat_observation_single .localitzation .label {
+  font-style: italic;
+}
+
+/* line 3, ../sass/observations.scss */
+.block-inat-obs .inat_observation {
+  height: auto;
+}
+/* line 6, ../sass/observations.scss */
+.block-inat-obs .inat_observation > div {
+  padding-left: 0px;
+}
+/* line 11, ../sass/observations.scss */
+.block-inat-obs .inat_observation .photo {
+  padding-left: 0px;
+}
+
+/* line 21, ../sass/observations.scss */
+.inat_observation {
+  background-color: rgba(246, 246, 246, 0.8);
+  margin-top: 0px;
+  border: 1px solid #dddddd;
+  margin-bottom: 15px;
+  padding: 10px;
+  display: block;
+  min-height: 160px;
+  clear: both;
+}
+/* line 30, ../sass/observations.scss */
+.inat_observation .photo {
+  float: left;
+  width: 150px;
+  height: 100%;
+  max-height: 150px;
+  overflow: hidden;
+  margin: 0 8px 2px 0;
+  padding-left: 0px;
+}
+/* line 38, ../sass/observations.scss */
+.inat_observation .photo .figure {
+  margin-left: 3px;
+  margin-right: 9px;
+  width: 100%;
+}
+/* line 45, ../sass/observations.scss */
+.inat_observation .photo img {
+  width: 100%;
+}
+/* line 49, ../sass/observations.scss */
+.inat_observation h2 {
+  margin-top: 0px;
+}
+/* line 52, ../sass/observations.scss */
+.inat_observation .description {
+  text-decoration: italics;
+}
+/* line 55, ../sass/observations.scss */
+.inat_observation > div {
+  padding-left: 158px;
+}
+/* line 57, ../sass/observations.scss */
+.inat_observation > div .label {
+  font-style: italic;
+}
+
+/* line 62, ../sass/observations.scss */
+.pager-wrapper {
+  text-align: center;
+}
+
+/* line 1, ../sass/places_list.scss */
+.inat_place.row {
+  background-color: rgba(246, 246, 246, 0.8);
+  border: 1px solid #dfdfdf;
+  display: inline-block;
+  height: 300px;
+  padding: 10px;
+  vertical-align: top;
+  width: 205px;
+}
+/* line 9, ../sass/places_list.scss */
+.inat_place.row .photo {
+  padding-left: 25px;
+}
+
+/* line 14, ../sass/places_list.scss */
+.pager-wrapper {
+  text-align: center;
+}
+
+/* line 1, ../sass/projects.scss */
+.inat_project {
+  clear: both;
+  margin-bottom: 18px;
+  display: inline-block;
+  height: 100%;
+  min-height: 100px;
+  width: 100%;
+  border: 1px solid;
+  border-color: #dddddd;
+  background-color: rgba(246, 246, 246, 0.8);
+}
+/* line 12, ../sass/projects.scss */
+.inat_project .photo {
+  display: block;
+  float: left;
+  padding: 0 6px 3px 0px;
+  margin-top: 12px;
+  margin-left: 15px;
+}
+/* line 19, ../sass/projects.scss */
+.inat_project h2 {
+  margin-top: 5px;
+  margin-left: 15px;
+}
+/* line 23, ../sass/projects.scss */
+.inat_project .description {
+  margin-left: 15px;
+}
+
+/* line 27, ../sass/projects.scss */
+.pager {
+  text-align: center;
+}
+
+
+/* line 2, ../sass/taxa.scss */
+.inat_taxa.row {
+  background-color: #f6f6f2;
+  border: 1px solid #e6e6e6;
+  display: inline-block;
+  height: 350px;
+  padding: 10px;
+  vertical-align: top;
+  width: 320px;
+}
+/* line 10, ../sass/taxa.scss */
+.inat_taxa.row .photo {
+  display: inline;
+  margin-left: 100px;
+}
+
+/* line 16, ../sass/taxa.scss */
+.inat_project.row {
+  border: 1px solid #e2e2e2;
+  padding-bottom: 10px;
+}
+/* line 19, ../sass/taxa.scss */
+.inat_project.row .photo {
+  float: right;
+  margin-top: 35px;
+  padding: 20px;
+}
+/* line 24, ../sass/taxa.scss */
+.inat_project.row h2 {
+  padding-left: 10px;
+}
+/* line 27, ../sass/taxa.scss */
+.inat_project.row .description {
+  padding-left: 10px;
+  padding-bottom: 10px;
+}
+/* line 31, ../sass/taxa.scss */
+.inat_project.row a {
+  padding-left: 10px;
+}
+
+/* line 2, ../sass/taxa_list.scss */
+.inat_taxa.row {
+  background-color: #f6f6f2;
+  border: 1px solid #e6e6e6;
+  display: inline-block;
+  height: 350px;
+  padding: 10px;
+  vertical-align: top;
+  width: 320px;
+}
+/* line 10, ../sass/taxa_list.scss */
+.inat_taxa.row .photo {
+  display: inline;
+  margin-left: 100px;
+}
+
+/* line 16, ../sass/taxa_list.scss */
+.inat_project.row {
+  border: 1px solid #e2e2e2;
+  padding-bottom: 10px;
+}
+/* line 19, ../sass/taxa_list.scss */
+.inat_project.row .photo {
+  float: right;
+  margin-top: 35px;
+}
+/* line 23, ../sass/taxa_list.scss */
+.inat_project.row h2 {
+  padding-left: 10px;
+}
+/* line 26, ../sass/taxa_list.scss */
+.inat_project.row .description {
+  padding-left: 10px;
+  padding-bottom: 10px;
+}
