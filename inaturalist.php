@@ -18,6 +18,19 @@ function add_inat_menu() {
 	$inat_options = add_options_page( 'iNaturalist configuration page', 'iNaturalist', 'manage_options', 'inaturalist', 'inat_options' );
 }
 
+add_action( 'wp_enqueue_scripts', 'register_plugin_styles' );
+function register_plugin_styles() {
+  wp_register_script('leaflet', 'http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js', false, false, false);
+  wp_register_script('cycle2', 'http://malsup.github.com/jquery.cycle2.js', false, false, false);
+  wp_register_script('cycle2tile', 'http://malsup.github.io/jquery.cycle2.tile.js', false, false, false);
+  wp_register_style('leaflet', 'http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css', false);
+  wp_register_style('inat', plugins_url( 'inaturalist/css/inat.css' ) );
+  wp_enqueue_script('leaflet');
+  wp_enqueue_script('cycle2');
+  wp_enqueue_script('cycle2tile');
+  wp_enqueue_style('leaflet');
+  wp_enqueue_style('inat');
+}
 
 function inat_options() {
 	if ( !current_user_can( 'manage_options' ) )  {
@@ -113,6 +126,9 @@ http://www.inaturalist.org/projects/101.json
 http://www.inaturalist.org/observations/project/101.json?per_page=40&order_by=observed_on
 http://www.inaturalist.org/taxa/47686.json
 http://www.inaturalist.org/observations.json?per_page=40&order_by=observed_on&taxon_id=47686&page=1
+
+http://www.inaturalist.org/users/18730.json
+http://www.inaturalist.org/observations/garrettt331.json?per_page=40&order_by=observed_on
       ********/
       case 'observations':
         if($id == '') {
@@ -153,6 +169,16 @@ http://www.inaturalist.org/observations.json?per_page=40&order_by=observed_on&ta
           $output .= theme_list_obs($data2, $params);
         }
         break;
+      case 'users':
+        if($id != '') {
+          $verb2 = 'observations/'.$data->login;
+          $output .= theme_user($data);
+          return $output;
+          unset($id);
+          $data2 = inat_get_call($verb2, $id, $page, $per_page, $order_by, $custom);
+          $output .= 'data2    '.var_dump($data2);
+          $output .= theme_list_obs($data2, $params);
+        }
      default:
           $output .= theme_list_obs($data, $params);
     }
