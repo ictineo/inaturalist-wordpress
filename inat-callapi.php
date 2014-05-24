@@ -331,8 +331,16 @@ function theme_list_taxa($taxons, $params) {
   }
   return $output;
 }
-function theme_user($data) {
-  return 'THEME USER::::::' . var_dump($data);
+function theme_user($user) {
+  $output .= '<div class="inat_project row" id="prj_'.$user->id.'">
+    <div class="photo">
+      <img src="'.$user->medium_user_icon_url.'"/>
+    </div> <!-- /photo -->
+    <h2><a href="'.site_url() . '/?'. http_build_query(array('page_id' => get_option('inat_post_id'), 'verb' => 'users', 'id' => $user->id)).'">'.$user->name.'</a></h2>
+    <div class="description">'.$user->description.'</div>
+  </div>';
+
+  return $output;
 }
 function theme_taxon($taxa) {
   $output = '

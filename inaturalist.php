@@ -174,10 +174,8 @@ http://www.inaturalist.org/observations/garrettt331.json?per_page=40&order_by=ob
         if($id != '') {
           $verb2 = 'observations/'.$data->login;
           $output .= theme_user($data);
-          return $output;
           unset($id);
           $data2 = inat_get_call($verb2, $id, $page, $per_page, $order_by, $custom);
-          $output .= 'data2    '.var_dump($data2);
           $output .= theme_list_obs($data2, $params);
         }
      default:
