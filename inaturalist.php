@@ -10,6 +10,7 @@
  */
 //Include widget
 require_once('inat-widgets.php');
+require_once('inat-widget-links.php');
 require_once('inat-callapi.php');
 //Afegir pàgina d'opcions i salvar-les
 add_action( 'admin_menu', 'add_inat_menu' );
@@ -140,7 +141,7 @@ http://www.inaturalist.org/observations/garrettt331.json?per_page=40&order_by=ob
         break;
       case 'places':
         if($id == '') {
-          $output .= theme_list_places($data);
+          $output .= theme_list_places($data, $params);
         } else {
           $output .= theme_place($data);
           $custom['place_guess'] = $id;
@@ -150,7 +151,7 @@ http://www.inaturalist.org/observations/garrettt331.json?per_page=40&order_by=ob
         break;
       case 'projects':
         if($id == '') {
-          $output .= theme_list_projects($data);
+          $output .= theme_list_projects($data, $params);
         } else {
           $output .= theme_project($data);
           $verb2 = 'observations/project';
@@ -160,7 +161,7 @@ http://www.inaturalist.org/observations/garrettt331.json?per_page=40&order_by=ob
         break;
       case 'taxa':
         if($id == '') {
-          $output .= theme_list_taxa($data);
+          $output .= theme_list_taxa($data, $params);
         } else {
           $output .= theme_taxon($data);
           $verb2 = 'observations';

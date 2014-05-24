@@ -64,6 +64,16 @@ function theme_list_obs($obs, $params) {
   foreach($obs as $id => $ob) {
     $output .= theme_list_single_obs($id,$ob, $params);
   }
+  $prev_url = site_url(). '/?'.http_build_query(array('page_id' => get_option('inat_post_id') , 'verb' => $params['verb'], 'page' => $params['page'] - 1));
+  $next_url = site_url(). '/?'.http_build_query(array('page_id' => get_option('inat_post_id') , 'verb' => $params['verb'], 'page' => $params['page'] + 1));
+  $output .= '<div class="clearfix"> </div>
+  <div class="pager-wrapper">';
+    if($params['page'] > 1) {
+      $output .= '<span id="prev-link" class="pager link"><a href="'.$prev_url.'">'.__('Prev','inat').'</a></span>&nbsp;&nbsp;';
+    }
+    $output .= '<span id="next-link" class="pager link"><a href="'.$next_url.'">'.__('Next','inat').'</a></span>
+  </div>';
+
   return $output;
 }
 
@@ -71,7 +81,7 @@ function theme_list_single_obs($id,$ob, $params) {
   $output = ' 
     <div class="inat_observation row" id="obs_'.$ob->id.'">
       <div class="photo">';
-        if (array_key_exists('photos_count',$ob) && $ob->photos_count == 0) {
+        if (is_array($ob) && array_key_exists('photos_count',$ob) && $ob->photos_count == 0) {
           $output .= '<span class="no_photo">'.t('No photo').'</span>';
         } elseif(isset($ob->photos[0])){
           $output .= '<div class="cycle-slideshow img-wrapper img-wrapper-'.$id.'"
@@ -207,14 +217,94 @@ function theme_observation($observation) {
   return $output;
 }
 
-function theme_list_places($data, $params) {
-  return var_dump($data);
+function theme_list_places($places, $params) {
+  $output = '';
+  $prev_url = $base_url . '/inat/places/';
+  $next_url = $prev_url;
+  if($current_page > 1) {
+    $prev_url .= $current_page - 1;
+  } else {
+    $prev_url .= '1';
+  }
+  $next_url .= $current_page + 1;
+  foreach($places as $id => $place) {
+    $output .= '<div class="inat_place row row-'.$id.'" id="prj_'.$place->id.'">
+      <div class="photo">
+      <div id="map-'.$place->id.'" style="width: 150px; height: 150px;"></div>
+      <script type="text/javascript">
+        var map = L.map("map-'.$place->id.'").setView([51.505, -0.09], 13);
+          L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
+          maxZoom: 18
+        }).addTo(map);
+        var bounds = new Array();
+        bounds.push(new Array(['.$place->nelat.', '.$place->nelng.']));
+        bounds.push(new Array(['.$place->swlat.', '.$place->swlng.']));
+        L.marker().setLatLng(['.$place->latitude.', '.$place->longitude.']).addTo(map);
+        map.fitBounds(bounds);
+      </script>
+    </div> <!-- /photo -->
+    <h2><a href="'.site_url(). '/?'.http_build_query(array('page_id' => get_option('inat_post_id'), 'verb' => 'places', 'id' => $place->id)).'">'.$place->display_name.'</a></h2>
+    </div>';
+  }
+  $prev_url = site_url(). '/?'.http_build_query(array('page_id' => get_option('inat_post_id') , 'verb' => $params['verb'], 'page' => $params['page'] - 1));
+  $next_url = site_url(). '/?'.http_build_query(array('page_id' => get_option('inat_post_id') , 'verb' => $params['verb'], 'page' => $params['page'] + 1));
+  $output .= '<div class="clearfix"> </div>
+  <div class="pager-wrapper">';
+    if($params['page'] > 1) {
+      $output .= '<span id="prev-link" class="pager link"><a href="'.$prev_url.'">'.__('Prev','inat').'</a></span>&nbsp;&nbsp;';
+    }
+    $output .= '<span id="next-link" class="pager link"><a href="'.$next_url.'">'.__('Next','inat').'</a></span>
+  </div>';
+
+  return $output;
 }
-function theme_place($data) {
-  return var_dump($data);
+function theme_place($place) {
+  $output .= '<div class="inat_project row" id="prj_'.$place->id.'">
+    <div class="photo">
+    <div id="map-'.$place->id.'" style="width: 400px; height: 400px;"></div>
+    <script type="text/javascript">
+      var map = L.map("map-'.$place->id.'").setView([51.505, -0.09], 13);
+        L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
+        maxZoom: 18
+      }).addTo(map);
+      var bounds = new Array();
+      bounds.push(new Array(['.$place->nelat.', '.$place->nelng.']));
+      bounds.push(new Array(['.$place->swlat.', '.$place->swlng.']));
+      L.marker().setLatLng(['.$place->latitude.', '.$place->longitude.']).addTo(map);
+      map.fitBounds(bounds);
+    </script>
+
+  </div> <!-- /photo -->
+  <h2><a href="'.site_url() . '/?'. http_build_query(array('page_id' => get_option('inat_post_id'), 'verb' => 'places', 'id' => $place->id)).'">'.$place->display_name.'</a></h2>';
+  if($place->parent_id != '') {
+    $output .= '<a href="'.site_url() .'/?'.http_build_query(array('page_id' => get_option('inat_post_id'), 'verb' => 'places', 'id' => $place->parent_id)).'">'.__('Parent','inat').'</a>';
+  }
+  $output .= '</div>';
+
+  return $output;
 }
-function theme_list_projects($data, $params) {
-  return var_dump($data);
+function theme_list_projects($list_projects, $params) {
+  $output = '';
+  foreach($list_projects as $id => $projects) {
+    $output .= '<div class="inat_project row" id="prj_'.$projects->id.'">
+      <div class="photo">
+        <img src="'.$projects->icon_url.'"/>
+      </div> <!-- /photo -->
+      <h2><a href="'.site_url() . '/?' . http_build_query(array('page_id' => get_option('inat_post_id'), 'verb' => 'projects', 'id' => $projects->id)).'">'.$projects->title.'</a></h2>
+      <div class="description">'.$projects->description.'</div>
+    </div>';
+  }
+  $prev_url = site_url(). '/?'.http_build_query(array('page_id' => get_option('inat_post_id') , 'verb' => $params['verb'], 'page' => $params['page'] - 1));
+  $next_url = site_url(). '/?'.http_build_query(array('page_id' => get_option('inat_post_id') , 'verb' => $params['verb'], 'page' => $params['page'] + 1));
+  $output .= '<div class="clearfix"> </div>
+  <div class="pager-wrapper">';
+    if($params['page'] > 1) {
+      $output .= '<span id="prev-link" class="pager link"><a href="'.$prev_url.'">'.__('Prev','inat').'</a></span>&nbsp;&nbsp;';
+    }
+    $output .= '<span id="next-link" class="pager link"><a href="'.$next_url.'">'.__('Next','inat').'</a></span>
+  </div>';
+
+  return $output;
 }
 function theme_project($projects) {
   $output = '
@@ -227,8 +317,19 @@ function theme_project($projects) {
   </div>';
   return $output;
 }
-function theme_list_taxa($data, $params) {
-  return var_dump($data);
+function theme_list_taxa($taxons, $params) {
+  $output = '';
+  foreach($taxons as $id => $taxa) {
+    $output .= '<div class="inat_taxa row row-'.$id.'" id="prj_'.$taxa->id.'">
+      <div class="photo">
+        <img src="'.$taxa->photo_url.'"/>
+      </div> <!-- /photo -->
+      <h2><a href="'.site_url() . '/?'. http_build_query(array('page_id' => get_option('inat_post_id'), 'verb' => 'taxa', 'id' => $taxa->id)).'">'.$taxa->common_name->name.' ('.$taxa->observations_count.') </a></h2>
+
+      <div class="description">'.$taxa->wikipedia_summary.'</div>
+  </div>';
+  }
+  return $output;
 }
 function theme_user($data) {
   return 'THEME USER::::::' . var_dump($data);

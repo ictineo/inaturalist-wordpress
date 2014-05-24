@@ -2,7 +2,7 @@
 /**
  * Adds Foo_Widget widget.
  */
-class iNatLogin_Widget extends WP_Widget {
+class iNatLinks_Widget extends WP_Widget {
 
 	/**
 	 * Register widget with WordPress.
@@ -10,9 +10,9 @@ class iNatLogin_Widget extends WP_Widget {
 	function __construct() {
     // info en el llistat de widgets
 		parent::__construct(
-			'inat_login_widget', // Base ID
-			__('iNaturalist Login', 'inat'), // Name
-			array( 'description' => __( 'iNaturalist plugin lateral block for user autentication (or creation)', 'text_domain' ), ) // Args
+			'inat_links_widget', // Base ID
+			__('iNaturalist Menu', 'inat'), // Name
+			array( 'description' => __( 'iNaturalist menu links to main lists', 'text_domain' ), ) // Args
 		);
 	}
 
@@ -30,20 +30,14 @@ class iNatLogin_Widget extends WP_Widget {
 		echo $args['before_widget']; // no tocar
 		if ( ! empty( $title ) )
 			echo $args['before_title'] . $title . $args['after_title'];
+    //'.site_url(). '/?'. http_build_query(array('page_id' => get_option('inat_post_id'), 'verb' => 'taxa', 'id' => $taxa->parent_id)).'
+    echo '<ul class="menu inat-menu">';
+    echo ' <li><a href="'.site_url() .'/?'.http_build_query(array('page_id' => get_option('inat_post_id'), 'verb' => 'observations')).'">'.__('Observations','inat').'</a></li>';
+    echo ' <li><a href="'.site_url() .'/?'.http_build_query(array('page_id' => get_option('inat_post_id'), 'verb' => 'places')).'">'.__('Places','inat').'</a></li>';
+    echo ' <li><a href="'.site_url() .'/?'.http_build_query(array('page_id' => get_option('inat_post_id'), 'verb' => 'projects')).'">'.__('Projects','inat').'</a></li>';
+    echo ' <li><a href="'.site_url() .'/?'.http_build_query(array('page_id' => get_option('inat_post_id'), 'verb' => 'taxa')).'">'.__('Species','inat').'</a></li>';
+    echo '</ul>';
 		//echo __( 'Hello, World!', 'text_domain' );
-  if(isset($_COOKIE) &&
-    array_key_exists('inat_code', $_COOKIE) &&
-    (!array_key_exists('inat_access_token', $_COOKIE) || $_COOKIE['inat_access_token'] == NULL))
-  {
-      if(!array_key_exists('access_token', $_COOKIE)) {
-        echo '<a href="'.get_option('inat_base_url').'/oauth/authorize?client_id='.get_option('inat_login_id','').'&redirect_uri='.get_option('inat_login_callback','').'&response_type=code">'. __('Autorize this app','inat'). '</a>';
-      } else {
-        //$_COOKIE['inat_access_token'] = $req['access_token'];
-      }
-
-    } elseif(!isset($_COOKIE) || !array_key_exists('inat_access_token', $_COOKIE) || $_COOKIE['inat_access_token'] == NULL) {
-      echo '<a href="'.get_option('inat_base_url').'/oauth/authorize?client_id='.get_option('inat_login_id','').'&redirect_uri='.get_option('inat_login_callback','').'&response_type=code">'. __('Autorize this app','inat'). '</a> or <a href="'.site_url().'/inat/add/user">'.__('create new user','inat').'</a>';
-    }
 		echo $args['after_widget']; // no tocar
 	}
 
@@ -60,7 +54,7 @@ class iNatLogin_Widget extends WP_Widget {
 			$title = $instance[ 'title' ];
 		}
 		else {
-			$title = __( 'iNaturalist Login', 'inat' );
+			$title = __( 'iNaturalist menu', 'inat' );
 		}
 		?>
 		<p>
@@ -89,8 +83,8 @@ class iNatLogin_Widget extends WP_Widget {
 
 } // class Foo_Widget
 // register Foo_Widget widget
-function register_foo_widget() {
-    register_widget( 'iNatLogin_Widget' );
+function register_inatlinks_widget() {
+    register_widget( 'iNatLinks_Widget' );
 }
-add_action( 'widgets_init', 'register_foo_widget' );
+add_action( 'widgets_init', 'register_inatlinks_widget' );
 ?>
