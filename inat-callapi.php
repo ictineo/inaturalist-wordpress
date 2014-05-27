@@ -78,7 +78,7 @@ function theme_list_obs($obs, $params) {
 }
 
 function theme_list_single_obs($id,$ob, $params) {
-  $output = ' 
+  $output = '  
     <div class="inat_observation row" id="obs_'.$ob->id.'">
       <div class="photo">';
         if (is_array($ob) && array_key_exists('photos_count',$ob) && $ob->photos_count == 0) {
@@ -95,6 +95,9 @@ function theme_list_single_obs($id,$ob, $params) {
             </figure>';
           }
         $output .= '</div>';
+      } else {
+
+      $output .= '<figure-default> <img src="'.home_url().'/wp-content/plugins/inaturalist/img/default.png"/> </figure-default>';    
       }
       $output .= '</div> <!-- /photo -->
       <h2><a href="'.site_url().'/?'.http_build_query(array('page_id' => get_option('inat_post_id'), 'verb'=>'observations', 'id' => $ob->id, )).'">'.$ob->species_guess.'</a></h2>
@@ -108,7 +111,7 @@ function theme_list_single_obs($id,$ob, $params) {
             $d = DateTime::createFromFormat('Y-m-d', $ob->observed_on)->format('l j F Y');
             $output .= __('Date observed: ', 'inat')."</span>".$d;
             }
-      $output .= '</div>';
+      $output .= '</div>'; 
 
 
     if(isset($ob->place_guess) && $ob->place_guess != ''){
@@ -149,7 +152,7 @@ function theme_map_obs($data, $context = 'page') {
 
 }
 function theme_observation($observation) {
-  $output = '
+  $output = '<div class="observation_single_wrapper">
   <div class="inat_observation_single" id="obs_'.$observation->id.'">
     <figure class="photo_single">';
     if (array_key_exists('photos_count', $observation) && $observation->photos_count == 0) {
@@ -212,7 +215,8 @@ function theme_observation($observation) {
     if(isset($observation->taxon_id)) {
       $output .= '<div class="taxon"><span class=label> '.__('Taxon: ','inat').'</span> <a href="'.site_url().'/?'.http_build_query(array('page_id' => get_option('inat_post_id'), 'verb' => 'taxa', 'id' => $observation->taxon_id)).'">'.$observation->species_guess.'</a></div>';
     }
-  $output .= '</div> </div>';
+    $output .= '</div> </div>     
+      </div>'; //wrapper
 
   return $output;
 }
@@ -230,7 +234,7 @@ function theme_list_places($places, $params) {
   foreach($places as $id => $place) {
     $output .= '<div class="inat_place row row-'.$id.'" id="prj_'.$place->id.'">
       <div class="photo">
-      <div id="map-'.$place->id.'" style="width: 150px; height: 150px;"></div>
+      <div id="map-'.$place->id.'" style="width: 175px; height: 175px;"></div>
       <script type="text/javascript">
         var map = L.map("map-'.$place->id.'").setView([51.505, -0.09], 13);
           L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
@@ -287,9 +291,14 @@ function theme_list_projects($list_projects, $params) {
   $output = '';
   foreach($list_projects as $id => $projects) {
     $output .= '<div class="inat_project row" id="prj_'.$projects->id.'">
-      <div class="photo">
-        <img src="'.$projects->icon_url.'"/>
-      </div> <!-- /photo -->
+      <div class="photo">' ;      
+        if(empty($projects->icon_url)) { 
+           $output .= '<figure-default> <img src="'.home_url().'/wp-content/plugins/inaturalist/img/default.png"/> </figure-default>';    
+        }
+        else{  
+           $output .='<img src="'.$projects->icon_url.'"/>';
+        }
+      $output .='</div> <!-- /photo -->
       <h2><a href="'.site_url() . '/?' . http_build_query(array('page_id' => get_option('inat_post_id'), 'verb' => 'projects', 'id' => $projects->id)).'">'.$projects->title.'</a></h2>
       <div class="description">'.$projects->description.'</div>
     </div>';
@@ -309,16 +318,21 @@ function theme_list_projects($list_projects, $params) {
 function theme_project($projects) {
   $output = '
   <div class="inat_project row" id="prj_'.$projects->id.'">
-    <div class="photo">
-      <img src="'.$projects->icon_url.'"/>
-    </div> <!-- /photo -->
+    <div class="photo">'; 
+      if(empty($projects->icon_url)){ 
+      $output .= '<figure-default> <img src="'.home_url().'/wp-content/plugins/inaturalist/img/default.png"/> </figure-default>';    
+      }
+      else { 
+        $output .='<img src="'.$projects->icon_url.'"/>';
+      }
+    $output .='</div> <!-- /photo -->
     <h2><a href="'.site_url().'/?'. http_build_query(array('page_id' => get_option('inat_post_id'), 'verb' => 'taxa', 'id' => $projects->id)).'">'.$projects->title.'</a></h2>
     <div class="description">'.$projects->description.'</div>
   </div>';
   return $output;
 }
 function theme_list_taxa($taxons, $params) {
-  $output = '';
+  $output = '<div id="taxa-wrapper">';
   foreach($taxons as $id => $taxa) {
     $output .= '<div class="inat_taxa row row-'.$id.'" id="prj_'.$taxa->id.'">
       <div class="photo">
@@ -329,6 +343,7 @@ function theme_list_taxa($taxons, $params) {
       <div class="description">'.$taxa->wikipedia_summary.'</div>
   </div>';
   }
+  $output .= '</div>';
   return $output;
 }
 function theme_user($user) {
