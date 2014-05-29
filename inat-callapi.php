@@ -152,10 +152,11 @@ function theme_map_obs($data, $context = 'page') {
 
 }
 function theme_observation($observation) {
+  //return var_dump($observation);
   $output = '<div class="observation_single_wrapper">
   <div class="inat_observation_single" id="obs_'.$observation->id.'">
     <figure class="photo_single">';
-    if (array_key_exists('photos_count', $observation) && $observation->photos_count == 0) {
+    if ( observation_photos_count == 0) {
       $output .= '<span class="no_photo">'.__('No photo','inat').'</span>';
     } else {
       $output .= '<div class="cycle-slideshow img-wrapper img-wrapper-'.$id.'"
@@ -292,7 +293,7 @@ function theme_list_projects($list_projects, $params) {
   foreach($list_projects as $id => $projects) {
     $output .= '<div class="inat_project row" id="prj_'.$projects->id.'">
       <div class="photo">' ;      
-        if(empty($projects->icon_url)) { 
+        if(empty($projects->icon_url)) {  
            $output .= '<figure-default> <img src="'.home_url().'/wp-content/plugins/inaturalist/img/default.png"/> </figure-default>';    
         }
         else{  

@@ -12,6 +12,7 @@
 require_once('inat-widgets.php');
 require_once('inat-widget-links.php');
 require_once('inat-callapi.php');
+require_once('inat-userapi.php');
 //Afegir pàgina d'opcions i salvar-les
 add_action( 'admin_menu', 'add_inat_menu' );
 
@@ -166,6 +167,7 @@ http://www.inaturalist.org/observations/garrettt331.json?per_page=40&order_by=ob
           $output .= theme_taxon($data);
           $verb2 = 'observations';
           $custom['taxon_id'] = $id;
+          unset($id);
           $data2 = inat_get_call($verb2, $id, $page, $per_page, $order_by, $custom);
           $output .= theme_list_obs($data2, $params);
         }
@@ -178,6 +180,10 @@ http://www.inaturalist.org/observations/garrettt331.json?per_page=40&order_by=ob
           $data2 = inat_get_call($verb2, $id, $page, $per_page, $order_by, $custom);
           $output .= theme_list_obs($data2, $params);
         }
+        break;
+      case 'add/user':
+        $output .= theme_add_user();
+        break;
      default:
           $output .= theme_list_obs($data, $params);
     }
