@@ -250,8 +250,8 @@ function inat_cookies() {
           //'data' => $data,
       //),
     );
-    echo var_dump($options);
-    echo var_dump($code);
+    //echo var_dump($options);
+    //echo var_dump($code);
     $context  = stream_context_create($options);
     $result = file_get_contents($url, false, $context);
     $req = json_decode($result);
