@@ -184,6 +184,9 @@ http://www.inaturalist.org/observations/garrettt331.json?per_page=40&order_by=ob
       case 'add/user':
         $output .= theme_add_user();
         break;
+      case 'add/observation':
+        $output .= theme_add_obs();
+        break;
      default:
           $output .= theme_list_obs($data, $params);
     }

@@ -373,4 +373,76 @@ function theme_taxon($taxa) {
 
   return $output;
 }
+
+/**
+ * add observation form
+ */
+
+function theme_add_user () {
+  $output = '
+<form accept-charset="UTF-8" id="inat-obs-add" method="post" action="'.site_url().'/wp-content/plugins/inaturalist/addobs.php">
+  <div>
+    <div class="form-item form-type-textfield form-item-inat-obs-add-species-guess">
+      <label for="edit-inat-obs-add-species-guess">'.__('What did you see?', 'inat').' </label>
+      <input type="text" class="form-text" maxlength="128" size="60" value="" name="inat_obs_add_species_guess" id="edit-inat-obs-add-species-guess">
+    </div>
+    <div class="form-item form-type-textfield form-item-inat-obs-add-taxon-id">
+      <label for="edit-inat-obs-add-taxon-id">'.__('Taxon ', 'inat').'</label>
+      <input type="text" class="form-text" maxlength="128" size="60" value="" name="inat_obs_add_taxon_id" id="edit-inat-obs-add-taxon-id">
+    </div>
+    <div class="form-item form-type-radios form-item-inat-obs-add-id-please">
+      <label for="edit-inat-obs-add-id-please">'.__('ID Please? ', 'inat').'</label>
+        <div class="form-radios" id="edit-inat-obs-add-id-please"><div class="form-item form-type-radio form-item-inat-obs-add-id-please">
+          <input type="radio" class="form-radio" value="0" name="inat_obs_add_id_please" id="edit-inat-obs-add-id-please-0">  <label for="edit-inat-obs-add-id-please-0" class="option">'.__('No ', 'inat').'</label>
+        </div>
+        <div class="form-item form-type-radio form-item-inat-obs-add-id-please">
+          <input type="radio" class="form-radio" value="1" name="inat_obs_add_id_please" id="edit-inat-obs-add-id-please-1">  <label for="edit-inat-obs-add-id-please-1" class="option">'.__('Yes ', 'inat').'</label>
+        </div>
+      </div>
+    </div>
+    <div class="form-item form-type-textfield form-item-inat-obs-add-observed-on-string">
+      <label for="edit-inat-obs-add-observed-on-string">'.__('Observed on ', 'inat').'</label>
+      <input type="text" class="form-text" maxlength="128" size="60" value="" name="inat_obs_add_observed_on_string" id="edit-inat-obs-add-observed-on-string">
+      <div class="description">'.__('YYYY-MM-DD, p.e. 2014-04-28', 'inat').'</div>
+    </div>
+    <div class="form-item form-type-textfield form-item-inat-obs-add-time-zone">
+      <label for="edit-inat-obs-add-time-zone">'.__('Time zone ', 'inat').'</label>
+      <input type="text" class="form-text" maxlength="128" size="60" value="Europe/Berlin" name="inat_obs_add_time_zone" id="edit-inat-obs-add-time-zone">
+    </div>
+    <div class="form-item form-type-textarea form-item-inat-obs-add-description">
+      <label for="edit-inat-obs-add-description">'.__('Description ', 'inat').'</label>
+      <div class="form-textarea-wrapper resizable textarea-processed resizable-textarea">
+        <textarea class="form-textarea" rows="5" cols="60" name="inat_obs_add_description" id="edit-inat-obs-add-description"></textarea>
+      </div>
+    </div>
+    <div class="form-item form-type-textfield form-item-inat-obs-add-place-guess">
+      <label for="edit-inat-obs-add-place-guess">'.__('Place ', 'inat').'</label>
+      <input type="text" class="form-text" maxlength="128" size="60" value="" name="inat_obs_add_place_guess" id="edit-inat-obs-add-place-guess">
+    </div>
+    <div class="form-item form-type-textfield form-item-inat-obs-add-latitude">
+      <label for="edit-inat-obs-add-latitude">'.__('Latitude ', 'inat').'</label>
+      <input type="text" class="form-text" maxlength="128" size="60" value="" name="inat_obs_add_latitude" id="edit-inat-obs-add-latitude">
+      <div class="description">'.__('Latitude of the observation. Presumed datum is WGS84.', 'inat').'</div>
+    </div>
+    <div class="form-item form-type-textfield form-item-inat-obs-add-longitude">
+      <label for="edit-inat-obs-add-longitude">'.__('Longitude ', 'inat').'</label>
+      <input type="text" class="form-text" maxlength="128" size="60" value="" name="inat_obs_add_longitude" id="edit-inat-obs-add-longitude">
+      <div class="description">'.__('Longitide of the observation. Presumed datum is WGS84.', 'inat').'</div>
+    </div>
+    <input type="hidden" value="form-wgvLgl_girxRCnRkMKXJ6FAoQrNvYibo5lvowsTUbJo" name="form_build_id">
+    <input type="hidden" value="__3eDu39QL78w2-XZHT9yxiGC5t3_zN2j5-BZAlLctg" name="form_token">
+    <input type="hidden" value="inat_obs_obs_add" name="form_id">
+    <div id="edit-actions" class="form-actions form-wrapper">
+      <input type="submit" class="form-submit" value="'.__('Add observation', 'inat').'" name="op" id="edit-submit">
+    </div>
+  </div>
+  <input type="hidden" name="inat_base_url" value="'.get_option('inat_base_url').'" />
+  <input type="hidden" name="inat_login_id" value="'.get_option('inat_login_id').'" />
+  <input type="hidden" name="site_url" value="'.site_url().'" />
+  <input type="hidden" name="inat_login_callback" value="'.get_option('inat_login_callback').'" />
+  <input type="hidden" name="inat_post_id" value="'.get_option('inat_post_id').'" />
+</form>
+    ';
+  return $output;
+}
 ?>
