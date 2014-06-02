@@ -36,6 +36,8 @@ class iNatLinks_Widget extends WP_Widget {
     echo ' <li><a href="'.site_url() .'/?'.http_build_query(array('page_id' => get_option('inat_post_id'), 'verb' => 'places')).'">'.__('Places','inat').'</a></li>';
     echo ' <li><a href="'.site_url() .'/?'.http_build_query(array('page_id' => get_option('inat_post_id'), 'verb' => 'projects')).'">'.__('Projects','inat').'</a></li>';
     echo ' <li><a href="'.site_url() .'/?'.http_build_query(array('page_id' => get_option('inat_post_id'), 'verb' => 'taxa')).'">'.__('Species','inat').'</a></li>';
+    echo ' <li><a href="'.site_url() .'/?'.http_build_query(array('page_id' => get_option('inat_post_id'), 'verb' => 'add/user')).'">'.__('Add user','inat').'</a></li>';
+    echo ' <li><a href="'.site_url() .'/?'.http_build_query(array('page_id' => get_option('inat_post_id'), 'verb' => 'add/observation')).'">'.__('Add observation','inat').'</a></li>';
     echo '</ul>';
 		//echo __( 'Hello, World!', 'text_domain' );
 		echo $args['after_widget']; // no tocar

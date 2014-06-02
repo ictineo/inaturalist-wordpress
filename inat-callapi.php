@@ -378,7 +378,7 @@ function theme_taxon($taxa) {
  * add observation form
  */
 
-function theme_add_user () {
+function theme_add_obs () {
   $output = '
 <form accept-charset="UTF-8" id="inat-obs-add" method="post" action="'.site_url().'/wp-content/plugins/inaturalist/addobs.php">
   <div>
