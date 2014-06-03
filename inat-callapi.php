@@ -402,7 +402,7 @@ function theme_add_obs () {
     </div>
     <div class="form-item form-type-textfield form-item-inat-obs-add-observed-on-string">
       <label for="edit-inat-obs-add-observed-on-string">'.__('Observed on ', 'inat').'</label>
-      <input type="text" class="form-text" maxlength="128" size="60" value="" name="inat_obs_add_observed_on_string" id="edit-inat-obs-add-observed-on-string">
+      <input type="text" class="form-text" maxlength="128" size="60" value="'.date('Y-m-d').'" name="inat_obs_add_observed_on_string" id="edit-inat-obs-add-observed-on-string">
       <div class="description">'.__('YYYY-MM-DD, p.e. 2014-04-28', 'inat').'</div>
     </div>
     <div class="form-item form-type-textfield form-item-inat-obs-add-time-zone">

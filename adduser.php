@@ -6,7 +6,7 @@ $states = array();
 // Validate
 if($_POST['inat_login_usradd_pwd'] != $_POST['inat_login_usradd_pwdc']) {
     //add_filter( 'display_post_states','inat_state1');
-    return;
+    //return;
 } else {
     // Actions token
     $verb = 'users.json';
