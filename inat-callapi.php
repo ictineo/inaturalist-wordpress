@@ -1,4 +1,13 @@
 <?php 
+/**
+ * Plugin Name: iNaturalist v1
+ * Plugin URI: http://www.inaturalist.org
+ * Description: This plugin connects your wordpress to inaturalist platform 
+ * Version: 1
+ * Author: Julià Mestieri for Projecte Ictineo SCCL (http://projecteictineo.com) 
+ * Author URI: http://projecteictineo.com
+ * License: aGPLv3
+ */
 function inat_get_call($verb='observations', $id='', $page='', $per_page='', $order_by='', $custom=array()) {
   /** Get the project information **/
 /**
