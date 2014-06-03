@@ -234,7 +234,6 @@ function theme_list_places($places, $params) {
   $next_url .= $current_page + 1;
   foreach($places as $id => $place) {
     $output .= '<div class="inat_place row row-'.$id.'" id="prj_'.$place->id.'">
-      <div class="photo">
       <div id="map-'.$place->id.'" style="width: 175px; height: 175px;"></div>
       <script type="text/javascript">
         var map = L.map("map-'.$place->id.'").setView([51.505, -0.09], 13);
@@ -247,7 +246,6 @@ function theme_list_places($places, $params) {
         L.marker().setLatLng(['.$place->latitude.', '.$place->longitude.']).addTo(map);
         map.fitBounds(bounds);
       </script>
-    </div> <!-- /photo -->
     <h2><a href="'.site_url(). '/?'.http_build_query(array('page_id' => get_option('inat_post_id'), 'verb' => 'places', 'id' => $place->id)).'">'.$place->display_name.'</a></h2>
     </div>';
   }
@@ -264,8 +262,7 @@ function theme_list_places($places, $params) {
   return $output;
 }
 function theme_place($place) {
-  $output .= '<div class="inat_project row" id="prj_'.$place->id.'">
-    <div class="photo">
+  $output .= '<div class="inat_place" id="place_'.$place->id.'">
     <div id="map-'.$place->id.'" style="width: 400px; height: 400px;"></div>
     <script type="text/javascript">
       var map = L.map("map-'.$place->id.'").setView([51.505, -0.09], 13);
@@ -278,8 +275,6 @@ function theme_place($place) {
       L.marker().setLatLng(['.$place->latitude.', '.$place->longitude.']).addTo(map);
       map.fitBounds(bounds);
     </script>
-
-  </div> <!-- /photo -->
   <h2><a href="'.site_url() . '/?'. http_build_query(array('page_id' => get_option('inat_post_id'), 'verb' => 'places', 'id' => $place->id)).'">'.$place->display_name.'</a></h2>';
   if($place->parent_id != '') {
     $output .= '<a href="'.site_url() .'/?'.http_build_query(array('page_id' => get_option('inat_post_id'), 'verb' => 'places', 'id' => $place->parent_id)).'">'.__('Parent','inat').'</a>';
@@ -361,9 +356,7 @@ function theme_user($user) {
 function theme_taxon($taxa) {
   $output = '
   <div class="inat_project row" id="prj_'.$taxa->id.'">
-    <div class="photo">
       <img src="'.$taxa->photo_url.'"/>
-    </div> <!-- /photo -->
     <h2><a href="'.site_url() .'/?' . http_build_query(array('page_id' => get_option('inat_post_id'), 'verb' => 'taxa', 'id' => $taxa->id)).'">'.$taxa->name.'</a></h2>
     <div class="description">'.$taxa->wikipedia_summary.'</div>';
     if($taxa->id != 48460){

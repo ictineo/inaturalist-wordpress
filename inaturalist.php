@@ -112,6 +112,8 @@ function my_the_content_filter($content) {
     //$ret_cont .= 'inat in!';
     $data = inat_get_call($verb, $id, $page, $per_page, $order_by, $custom);
     $params =array('verb' => $verb, 'id' => $id, 'page' => $page, 'per_page' => $per_page, 'order_by' => $order_by, 'custom' => $custom);
+    $red_usr = get_option('inat_reduce_user');
+    $red_prj = get_option('inat_reduce_project');
     switch($verb) {
       /******
 http://www.inaturalist.org/observations.json?per_page=150&order_by=observed_on&page=1
@@ -134,33 +136,55 @@ http://www.inaturalist.org/observations/garrettt331.json?per_page=40&order_by=ob
       ********/
       case 'observations':
         if($id == '') {
+          if($red_usr != '') {
+            $usr_data = inat_get_call('users', $red_usr);
+            $usr_name = $usr_data->login;
+            $verb .= '/'.$usr_name;
+          }elseif($red_prj != '') {
+            $verb .= '/project/'.$red_prj;
+          }
+          $data = inat_get_call($verb, $id, $page, $per_page, $order_by, $custom);
           $output .= theme_map_obs($data);
           $output .= theme_list_obs($data, $params);
         } else {
+          $data = inat_get_call($verb, $id, $page, $per_page, $order_by, $custom);
           $output .= theme_observation($data);
         }
         break;
       case 'places':
+        $data = inat_get_call($verb, $id, $page, $per_page, $order_by, $custom);
         if($id == '') {
           $output .= theme_list_places($data, $params);
         } else {
           $output .= theme_place($data);
+          $verb = 'observations';
+          $id = '';
           $custom['place_guess'] = $id;
           $data2 = inat_get_call($verb, $id, $page, $per_page, $order_by, $custom);
           $output .= theme_list_obs($data2, $params);
         }
         break;
       case 'projects':
-        if($id == '') {
-          $output .= theme_list_projects($data, $params);
-        } else {
-          $output .= theme_project($data);
-          $verb2 = 'observations/project';
-          $data2 = inat_get_call($verb2, $id, $page, $per_page, $order_by, $custom);
-          $output .= theme_list_obs($data2, $params);
-        }
+          if($id == '') {
+            if($red_prj != '') {
+              $id = $red_prj;
+            } elseif($red_usr != '') {
+              $usr_data = inat_get_call('users', $red_usr);
+              $usr_name = $usr_data->login;
+              $verb .= '/user/' . $usr_name;
+            }
+            $data = inat_get_call($verb, $id, $page, $per_page, $order_by, $custom);
+            $output .= theme_list_projects($data, $params);
+          } else {
+            $data = inat_get_call($verb, $id, $page, $per_page, $order_by, $custom);
+            $output .= theme_project($data);
+            $verb2 = 'observations/project';
+            $data2 = inat_get_call($verb2, $id, $page, $per_page, $order_by, $custom);
+            $output .= theme_list_obs($data2, $params);
+          }
         break;
       case 'taxa':
+        $data = inat_get_call($verb, $id, $page, $per_page, $order_by, $custom);
         if($id == '') {
           $output .= theme_list_taxa($data, $params);
         } else {
@@ -173,6 +197,7 @@ http://www.inaturalist.org/observations/garrettt331.json?per_page=40&order_by=ob
         }
         break;
       case 'users':
+        $data = inat_get_call($verb, $id, $page, $per_page, $order_by, $custom);
         if($id != '') {
           $verb2 = 'observations/'.$data->login;
           $output .= theme_user($data);
@@ -188,7 +213,8 @@ http://www.inaturalist.org/observations/garrettt331.json?per_page=40&order_by=ob
         $output .= theme_add_obs();
         break;
      default:
-          $output .= theme_list_obs($data, $params);
+        $data = inat_get_call($verb, $id, $page, $per_page, $order_by, $custom);
+        $output .= theme_list_obs($data, $params);
     }
     return $output;
   }

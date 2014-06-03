@@ -1,3 +1,6 @@
+header h1.entry-title {
+  display: none;
+}
 /* line 1, ../sass/observation.scss */
 figure.photo {
   float: left;
@@ -159,6 +162,7 @@ figure.photo figurecaption {
 }
 
 /* line 1, ../sass/projects.scss */
+.inat_place,
 .inat_project {
   clear: both;
   margin-bottom: 18px;
@@ -171,6 +175,7 @@ figure.photo figurecaption {
   background-color: rgba(246, 246, 246, 0.8);
 }
 /* line 12, ../sass/projects.scss */
+.inat_place .photo,
 .inat_project .photo {
   display: inline;
   float: left;
@@ -180,10 +185,12 @@ figure.photo figurecaption {
 
 }
 /* line 19, ../sass/projects.scss */
+.inat_place h2,
 .inat_project h2 {
   margin-top: 5px;
 }
 /* line 23, ../sass/projects.scss */
+.inat_place .description,
 .inat_project .description {
   margin-left: 15px;
   padding-top: 10px;
@@ -213,22 +220,26 @@ figure.photo figurecaption {
 }
 
 /* line 16, ../sass/taxa.scss */
+.inat_place.row,
 .inat_project.row {
   border: 1px solid #e2e2e2;
   padding-bottom: 10px;
   padding-top: 10px;
 }
 /* line 19, ../sass/taxa.scss */
+.inat_place.row .photo,
 .inat_project.row .photo {
   float: left;
   display:inline;
 }
 /* line 24, ../sass/taxa.scss */
+.inat_place.row h2,
 .inat_project.row h2 {
   display: inline;
   margin-left: -15px;
 }
 /* line 31, ../sass/taxa.scss */
+.inat_place.row a,
 .inat_project.row a {
  padding-left: 15px;
 }
@@ -251,17 +262,20 @@ figure.photo figurecaption {
 }
 
 /* line 16, ../sass/taxa_list.scss */
+.inat_place.row,
 .inat_project.row {
   border: 1px solid #e2e2e2;
   padding-bottom: 10px;
   padding-top: 10px;
 }
 /* line 19, ../sass/taxa_list.scss */
+.inat_place.row .photo,
 .inat_project.row .photo {
   float: left;
   padding: 5px 20px 20px;
 }
 /* line 23, ../sass/taxa_list.scss */
+.inat_place.row h2,
 .inat_project.row h2 {
 }
 figure-default img {
