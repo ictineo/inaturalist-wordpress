@@ -152,7 +152,6 @@ function theme_map_obs($data, $context = 'page') {
 
 }
 function theme_observation($observation) {
-  //return var_dump($observation);
   $output = '<div class="observation_single_wrapper">
   <div class="inat_observation_single" id="obs_'.$observation->id.'">
     <figure class="photo_single">';

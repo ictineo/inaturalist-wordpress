@@ -110,7 +110,6 @@ function my_the_content_filter($content) {
     if(isset($GLOBLAS['_REQUEST']['place_guess'])) { $custom += array('place_guess' => $GLOBALS['_REQUEST']['place_guess']); }
     if(isset($GLOBLAS['_REQUEST']['taxon_id'])) { $custom += array('taxon_id' => $GLOBALS['_REQUEST']['taxon_id']); }
     //if(isset($GLOBLAS['_REQUEST'][''])) { $custom += array('' => $GLOBALS['_REQUEST']['']); }
-    //return var_dump($GLOBALS['_REQUEST']);
     //$ret_cont .= 'inat in!';
     $data = inat_get_call($verb, $id, $page, $per_page, $order_by, $custom);
     $params =array('verb' => $verb, 'id' => $id, 'page' => $page, 'per_page' => $per_page, 'order_by' => $order_by, 'custom' => $custom);
@@ -281,8 +280,6 @@ function inat_cookies() {
           //'data' => $data,
       //),
     );
-    //echo var_dump($options);
-    //echo var_dump($code);
     $context  = stream_context_create($options);
     $result = file_get_contents($url, false, $context);
     $req = json_decode($result);
