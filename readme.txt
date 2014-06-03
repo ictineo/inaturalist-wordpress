@@ -50,3 +50,9 @@ Not yet, contribute your ones to developers to: contacte@projecteictineo.com
 Include translate files for strings
 Develop more widgets functionality
 Add options to login widget
+
+== Contribute ==
+To contribute to the code yo can contact to the developers at: juli@projecteictineo.com (quiron)
+Also you can browse the code into Projecte Ictineo's github:
+https://github.com/ictineo/inaturalist-wordpress
+where yo can also report your issues.
