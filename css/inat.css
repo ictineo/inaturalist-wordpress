@@ -113,7 +113,8 @@ figure.photo figurecaption {
 }
 /* line 45, ../sass/observations.scss */
 .inat_observation figurecaption {
-  font-size:10px;
+  font-size: 70%;
+  line-height: 100%;
 }
 .inat_observation .photo img {
   display:block;
@@ -289,4 +290,10 @@ figure-default img {
 .observation_single_wrapper {
     margin-left: -93px;
     width: 691px;
+}
+
+/**
+ * Other stule corrections
+ */
+figurecaption {
 }
