@@ -41,25 +41,25 @@ function inat_options() {
 		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 	}
 	if(isset($_POST['inat_base_url'])){
-		update_option( 'inat_base_url',$_POST['inat_base_url'] );		
+		update_option( 'inat_base_url',esc_url_raw($_POST['inat_base_url']) );		
 	}
 	if(isset($_POST['inat_reduce_project'])){
-		update_option( 'inat_reduce_project',$_POST['inat_reduce_project'] );		
+		update_option( 'inat_reduce_project',intval($_POST['inat_reduce_project']) );		
 	}
 	if(isset($_POST['inat_reduce_user'])){
-		update_option( 'inat_reduce_user',$_POST['inat_reduce_user'] );		
+		update_option( 'inat_reduce_user',intval($_POST['inat_reduce_user']) );		
 	}
 	if(isset($_POST['inat_login_callback'])){
-		update_option( 'inat_login_callback',$_POST['inat_login_callback'] );		
+		update_option( 'inat_login_callback',esc_url_raw($_POST['inat_login_callback']) );		
 	}
 	if(isset($_POST['inat_login_id'])){
-		update_option( 'inat_login_id',$_POST['inat_login_id'] );		
+		update_option( 'inat_login_id',wp_kses($_POST['inat_login_id']) );		
 	}
 	if(isset($_POST['inat_login_secret'])){
-		update_option( 'inat_login_secret',$_POST['inat_login_secret'] );		
+		update_option( 'inat_login_secret',wp_kses($_POST['inat_login_secret']) );		
 	}
 	if(isset($_POST['inat_login_app'])){
-		update_option( 'inat_login_app',$_POST['inat_login_app'] );		
+		update_option( 'inat_login_app',intval($_POST['inat_login_app']) );		
 	}
 
 	echo '<div class="wrap">';
@@ -228,30 +228,21 @@ add_filter( 'the_content', 'my_the_content_filter' );
 //afegir camp a l'usuari
 
 //add_action( 'profile_personal_options', 'inat_user' );
-add_action( 'show_user_profile', 'inat_user' );
+//add_action( 'show_user_profile', 'inat_user' );
 
     
-function inat_user( $user ) {
+//function inat_user( $user ) {
 
-    $inat_user_value = get_user_meta( $user->ID, 'inat_user', true );
+    //$inat_user_value = get_user_meta( $user->ID, 'inat_user', true );
 
-    ?>
-<h3>INature</h3>
-<table class="form-table">
-	<tbody><tr>
-		<th><label for="user_login">Usuari INature</label></th>
-		<td><input type="text" value="<?php echo esc_attr( $inat_user_value ); ?>" name="inat_user" /></td>
-	</tr>
-</tbody></table>
-    <?php
-}
+//}
 
- add_action('personal_options_update', 'update_inat_user');
+ //add_action('personal_options_update', 'update_inat_user');
  
- function update_inat_user($user_id) {
-     if ( current_user_can('edit_user',$user_id) )
-         update_user_meta($user_id, 'inat_user', $_POST['inat_user']);
- }
+ //function update_inat_user($user_id) {
+     //if ( current_user_can('edit_user',$user_id) )
+         //update_user_meta($user_id, 'inat_user', $_POST['inat_user']);
+ //}
 
  /** cookie manajer for inat auth **/
 function inat_cookies() {
