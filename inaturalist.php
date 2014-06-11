@@ -171,7 +171,14 @@ http://www.inaturalist.org/observations/garrettt331.json?per_page=40&order_by=ob
               $verb .= '/user/' . $usr_name;
             }
             $data = inat_get_call($verb, $id, $page, $per_page, $order_by, $custom);
-            $output .= theme_list_projects($data, $params);
+            if($red_prj != '') {
+              $output .= theme_project($data);
+              $verb2 = 'observations/project';
+              $data2 = inat_get_call($verb2, $id, $page, $per_page, $order_by, $custom);
+              $output .= theme_list_obs($data2, $params);
+            } else {
+              $output .= theme_list_projects($data, $params);
+            }
           } else {
             $data = inat_get_call($verb, $id, $page, $per_page, $order_by, $custom);
             $output .= theme_project($data);
