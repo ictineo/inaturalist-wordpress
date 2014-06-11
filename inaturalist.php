@@ -24,7 +24,7 @@ add_action( 'wp_enqueue_scripts', 'register_plugin_styles' );
 function register_plugin_styles() {
   wp_register_script('leaflet', plugins_url('inaturalist/js/leaflet.js'), array('jquery'), false, false);
   wp_register_script('cycle2', plugins_url('inaturalist/js/jquery.cycle2.js'), array('jquery'), false, false);
-  wp_register_style('leaflet', plugins_url('inaturalist/css/leaflet.css', false);
+  wp_register_style('leaflet', plugins_url('inaturalist/css/leaflet.css'), false);
   wp_register_style('inat', plugins_url( 'inaturalist/css/inat.css' ) );
   wp_enqueue_script('leaflet');
   wp_enqueue_script('cycle2');
