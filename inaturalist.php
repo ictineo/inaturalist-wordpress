@@ -22,16 +22,12 @@ function add_inat_menu() {
 
 add_action( 'wp_enqueue_scripts', 'register_plugin_styles' );
 function register_plugin_styles() {
-  wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js', false, false, false);
-  wp_register_script('leaflet', 'http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js', false, false, false);
-  wp_register_script('cycle2', 'http://malsup.github.com/jquery.cycle2.js?ver=3.9.1', false, false, false);
-  //wp_register_script('cycle2tile', 'http://malsup.github.io/jquery.cycle2.tile.js', false, false, false);
-  wp_register_style('leaflet', 'http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css', false);
+  wp_register_script('leaflet', plugins_url('inaturalist/js/leaflet.js'), array('jquery'), false, false);
+  wp_register_script('cycle2', plugins_url('inaturalist/js/jquery.cycle2.js'), array('jquery'), false, false);
+  wp_register_style('leaflet', plugins_url('inaturalist/css/leaflet.css', false);
   wp_register_style('inat', plugins_url( 'inaturalist/css/inat.css' ) );
-  wp_enqueue_script('jquery');
   wp_enqueue_script('leaflet');
   wp_enqueue_script('cycle2');
-  wp_enqueue_script('cycle2tile');
   wp_enqueue_style('leaflet');
   wp_enqueue_style('inat');
 }
