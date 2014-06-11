@@ -106,7 +106,7 @@ function theme_list_single_obs($id,$ob, $params) {
         $output .= '</div>';
       } else {
 
-      $output .= '<figure-default> <img src="'.home_url().'/wp-content/plugins/inaturalist/img/default.png"/> </figure-default>';    
+      $output .= '<figure-default> <img src="'.plugins_url('img/default.png', __FILE__).'"/> </figure-default>';    
       }
       $output .= '</div> <!-- /photo -->
       <h2><a href="'.site_url().'/?'.http_build_query(array('page_id' => get_option('inat_post_id'), 'verb'=>'observations', 'id' => $ob->id, )).'">'.$ob->species_guess.'</a></h2>
@@ -297,7 +297,7 @@ function theme_list_projects($list_projects, $params) {
     $output .= '<div class="inat_project row" id="prj_'.$projects->id.'">
       <div class="photo">' ;      
         if(empty($projects->icon_url)) {  
-           $output .= '<figure-default> <img src="'.home_url().'/wp-content/plugins/inaturalist/img/default.png"/> </figure-default>';    
+           $output .= '<figure-default> <img src="'.plugins_url('img/default.png',__FILE__).'"/> </figure-default>';    
         }
         else{  
            $output .='<img src="'.$projects->icon_url.'"/>';
@@ -324,7 +324,7 @@ function theme_project($projects) {
   <div class="inat_project row" id="prj_'.$projects->id.'">
     <div class="photo">'; 
       if(empty($projects->icon_url)){ 
-      $output .= '<figure-default> <img src="'.home_url().'/wp-content/plugins/inaturalist/img/default.png"/> </figure-default>';    
+      $output .= '<figure-default> <img src="'.plugins_url('img/default.png',__FILE__).'"/> </figure-default>';    
       }
       else { 
         $output .='<img src="'.$projects->icon_url.'"/>';
