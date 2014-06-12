@@ -372,7 +372,7 @@ function theme_taxon($taxa) {
 
 function theme_add_obs () {
   $output = '
-<form accept-charset="UTF-8" id="inat-obs-add" method="post" action="'.site_url().'/wp-content/plugins/inaturalist/addobs.php">
+<form accept-charset="UTF-8" id="inat-obs-add" method="post" action="'.plugins_url('addobs.php', __FILE__).'">
   <div>
     <div class="form-item form-type-textfield form-item-inat-obs-add-species-guess">
       <label for="edit-inat-obs-add-species-guess">'.__('What did you see?', 'inat').' </label>

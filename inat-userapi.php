@@ -2,7 +2,7 @@
 
 function theme_add_user () {
   $output = '
-<form accept-charset="UTF-8" id="inat-login-user-add" method="post" action="'.site_url().'/wp-content/plugins/inaturalist/adduser.php">
+<form accept-charset="UTF-8" id="inat-login-user-add" method="post" action="'.plugins_url('adduser.php',__FILE__).'">
   <div>
     <div class="form-item form-type-textfield form-item-inat-login-usradd-login">
       <label for="edit-inat-login-usradd-login">'.__('User login','inat').' <span title="This field is required." class="form-required">*</span></label>
