@@ -3,7 +3,7 @@
  * Plugin Name: iNaturalist v1
  * Plugin URI: http://www.inaturalist.org
  * Description: This plugin connects your wordpress to inaturalist platform 
- * Version: 1
+ * Version: 1.2
  * Author: Julià Mestieri for Projecte Ictineo SCCL (http://projecteictineo.com) 
  * Author URI: http://projecteictineo.com
  * License: aGPLv3
